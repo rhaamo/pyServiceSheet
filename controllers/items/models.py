@@ -42,7 +42,12 @@ class Item(models.Model):
         verbose_name_plural = "items"
 
     def __str__(self):
-        return self.model
+        if self.manufacturer and self.country_of_origin:
+            return f"{self.model} ({self.manufacturer.name}, {self.country_of_origin})"
+        elif self.manufacturer:
+            return f"{self.model} ({self.manufacturer.name})"
+        else:
+            return self.model
 
 
 class ItemWeight(models.Model):
@@ -69,3 +74,20 @@ class ItemPower(models.Model):
 
     class Meta(object):
         ordering = ("mode",)
+
+
+class ItemWork(models.Model):
+    item = models.ForeignKey(Item, related_name="item_works", blank=False, null=False, on_delete=models.CASCADE)
+
+    summary = models.CharField(max_length=255, blank=False, null=False)
+    content = models.TextField(blank=False, null=False, help_text="Markdown is supported.")
+    private = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Work done on {self.created_at}"
+
+    class Meta(object):
+        ordering = ("created_at",)  # latest last
