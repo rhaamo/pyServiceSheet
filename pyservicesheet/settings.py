@@ -96,7 +96,14 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["mptt", "imagekit", "django_admin_listfilter_dropdown", "django_extensions", "bootstrap4", "dynamic_preferences"]
+THIRD_PARTY_APPS = [
+    "mptt",
+    "imagekit",
+    "django_admin_listfilter_dropdown",
+    "django_extensions",
+    "bootstrap4",
+    "dynamic_preferences",
+]
 
 LOCAL_APPS = ["controllers.categories", "controllers.manufacturers", "controllers.items"]
 
