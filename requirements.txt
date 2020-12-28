@@ -56,3 +56,4 @@ typing-extensions==3.7.4.3
 uritemplate==3.0.1
 urllib3==1.26.2
 django-bootstrap4==2.3.1
+django-markdownfield==0.8.0
