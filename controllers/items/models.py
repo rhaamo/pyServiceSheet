@@ -27,8 +27,6 @@ class Item(models.Model):
     # gallery attachments
     # files attachments
     # related links
-    # weights FK o2m of (int, str, str)
-    # powers FK o2m of (str)
     # related parts FK Item
 
     # Private fields
@@ -59,3 +57,15 @@ class ItemWeight(models.Model):
 
     class Meta(object):
         ordering = ("weight",)
+
+
+class ItemPower(models.Model):
+    item = models.ForeignKey(Item, related_name="item_modes", blank=False, null=False, on_delete=models.CASCADE)
+
+    mode = models.CharField(max_length=255, blank=False, null=False)
+
+    def __str__(self):
+        return self.mode
+
+    class Meta(object):
+        ordering = ("mode",)
