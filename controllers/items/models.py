@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+
 from controllers.categories.models import Category
 from controllers.manufacturers.models import Manufacturer
 
@@ -42,12 +43,21 @@ class Item(models.Model):
         verbose_name_plural = "items"
 
     def __str__(self):
-        if self.manufacturer and self.country_of_origin:
-            return f"{self.model} ({self.manufacturer.name}, {self.country_of_origin})"
-        elif self.manufacturer:
-            return f"{self.model} ({self.manufacturer.name})"
+        extras = []
+        if self.manufacturer:
+            extras.append(self.manufacturer.name)
         else:
-            return self.model
+            extras.append("Unknown")
+
+        if self.country_of_origin:
+            extras.append(self.country_of_origin)
+
+        name = self.model
+
+        if len(extras) > 0:
+            name += f" ({', '.join(extras)})"
+
+        return name
 
 
 class ItemWeight(models.Model):
@@ -91,3 +101,13 @@ class ItemWork(models.Model):
 
     class Meta(object):
         ordering = ("created_at",)  # latest last
+
+
+class ItemRelated(models.Model):
+    item = models.ForeignKey(Item, related_name="related_items", blank=False, null=False, on_delete=models.CASCADE)
+    related = models.ForeignKey(
+        Item, verbose_name="item", blank=False, null=False, on_delete=models.CASCADE, related_name="related_items_item"
+    )
+
+    def __str__(self):
+        return self.related.__str__()

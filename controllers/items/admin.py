@@ -1,6 +1,6 @@
 from django.contrib import admin
 from controllers.admin import CommonAdmin
-from .models import Item, ItemPower, ItemWeight, ItemWork
+from .models import Item, ItemPower, ItemRelated, ItemWeight, ItemWork
 from django_admin_listfilter_dropdown.filters import DropdownFilter
 from mptt.admin import TreeRelatedFieldListFilter
 
@@ -26,6 +26,14 @@ class WorksInline(admin.StackedInline):
     verbose_name_plural = "Work logs"
 
 
+class RelatedInline(admin.TabularInline):
+    model = ItemRelated
+    extra = 0
+    fk_name = "item"
+    verbose_name = "Item"
+    verbose_name_plural = "Related items"
+
+
 class ItemAdmin(CommonAdmin):
     list_display = (
         "model",
@@ -40,6 +48,7 @@ class ItemAdmin(CommonAdmin):
         WeightsInline,
         PowersInline,
         WorksInline,
+        RelatedInline,
     ]  # gallery attachments, files attachments, related links, related FK items?
     list_filter = [
         ("manufacturer__name", DropdownFilter),
