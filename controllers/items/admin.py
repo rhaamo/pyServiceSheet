@@ -20,7 +20,9 @@ class ItemAdmin(CommonAdmin):
         "can_be_sold",
     )
     search_fields = ("model", "state", "description")
-    inlines = [WeightsInline]  # gallery attachments, files attachments, related links, weights, powers, related FK items?
+    inlines = [
+        WeightsInline
+    ]  # gallery attachments, files attachments, related links, weights, powers, related FK items?
     list_filter = [
         ("manufacturer__name", DropdownFilter),
         ("country_of_origin", DropdownFilter),
