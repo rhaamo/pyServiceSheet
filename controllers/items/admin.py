@@ -22,8 +22,8 @@ class PowersInline(admin.TabularInline):
 class WorksInline(admin.StackedInline):
     model = ItemWork
     extra = 1
-    verbose_name = "Work note"
-    verbose_name_plural = "Work notes"
+    verbose_name = "Work log"
+    verbose_name_plural = "Work logs"
 
 
 class ItemAdmin(CommonAdmin):
