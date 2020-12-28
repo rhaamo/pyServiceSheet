@@ -1,0 +1,11 @@
+[Unit]
+Description=pyServiceSheet application server
+
+[Service]
+User=pyservicesheet
+WorkingDirectory=/home/pyservicesheet/pyservicesheet/
+EnvironmentFile=/home/pyservicesheet/pyservicesheet/.env
+ExecStart=/home/pyservicesheet/pyservicesheet/venv/bin/gunicorn config.asgi:application -w ${WEB_WORKERS} -k uvicorn.workers.UvicornWorker -b ${API_IP}:${API_PORT}
+
+[Install]
+WantedBy=multi-user.target
