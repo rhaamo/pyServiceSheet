@@ -28,31 +28,51 @@
         </ul>
         <div class="tab-content mt-4" id="myTabContent">
             <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
-                <div class="row border-bottom">
-                    <div class="col-lg-3 font-weight-bold">Model</div>
-                    <div class="col">{{ item.model }}</div>
-                </div>
-                <div class="row border-bottom">
-                    <div class="col-lg-3 font-weight-bold">Manufacturer</div>
-                    <div class="col">{{ item.manufacturer }}</div>
-                </div>
-                <div class="row border-bottom">
-                    <div class="col-lg-3 font-weight-bold">Country of Origin</div>
-                    <div class="col">{{ item.country_of_origin }}</div>
-                </div>
-                <div class="row border-bottom">
-                    <div class="col-lg-3 font-weight-bold">Size</div>
-                    <div class="col">{{ item.size }}</div>
-                </div>
-                <div class="row border-bottom">
-                    <div class="col-lg-3 font-weight-bold">Serial Number</div>
-                    <div class="col">{{ item.serial_number }}</div>
-                </div>
-                <div class="row border-bottom">
-                    <div class="col-lg-3 font-weight-bold">Short description</div>
-                    <div class="col">{{ item.short_description }}</div>
-                </div>
                 <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row border-bottom">
+                            <div class="col-lg-3 font-weight-bold">Model</div>
+                            <div class="col">{{ item.model }}</div>
+                        </div>
+                        <div class="row border-bottom">
+                            <div class="col-lg-3 font-weight-bold">Manufacturer</div>
+                            <div class="col">{{ item.manufacturer }}</div>
+                        </div>
+                        <div class="row border-bottom">
+                            <div class="col-lg-3 font-weight-bold">Country of Origin</div>
+                            <div class="col">{{ item.country_of_origin }}</div>
+                        </div>
+                        <div class="row border-bottom">
+                            <div class="col-lg-3 font-weight-bold">Size</div>
+                            <div class="col">{{ item.size }}</div>
+                        </div>
+                        <div class="row border-bottom">
+                            <div class="col-lg-3 font-weight-bold">Serial Number</div>
+                            <div class="col">{{ item.serial_number }}</div>
+                        </div>
+                        <div class="row border-bottom">
+                            <div class="col-lg-3 font-weight-bold">Short description</div>
+                            <div class="col">{{ item.short_description }}</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="slider slider-for">
+                            {% for pic in item.item_pictures.all %}
+                            <div class="text-center">
+                                <img width="400px" class="mx-auto" src="{{ pic.file_medium.url }}">
+                                <p>{{ pic.description |default:'No description.'}}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="slider slider-nav">
+                            {% for pic in item.item_pictures.all %}
+                            <div ><img class="px-4" src="{{ pic.file_small.url }}" width="200px">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-3">
                     <div class="col-lg-6 font-weight-bold">Description</div>
                     <div class="col-lg-6 font-weight-bold">Plate infos</div>
                 </div>
@@ -114,4 +134,24 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('.slider-for').slick({
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: true,
+  fade: true,
+  asNavFor: '.slider-nav'
+});
+$('.slider-nav').slick({
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  asNavFor: '.slider-for',
+  dots: true,
+  centerMode: true,
+  focusOnSelect: true
+});
+</script>
 {% endblock %}

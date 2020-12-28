@@ -81,8 +81,9 @@ scripts/nuke
 /.env.*
 
 # Static
-media/
-static/
+/media/
+/controllers/media/
+/static/
 
 TODO
 

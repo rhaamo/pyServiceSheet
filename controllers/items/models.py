@@ -164,7 +164,7 @@ class ItemPicture(models.Model):
         source="file", processors=[ResizeToFit(200, 150, upscale=False)], format="JPEG", options={"quality": 80}
     )
     file_medium = ImageSpecField(
-        source="file", processors=[ResizeToFit(400, 40, upscale=False)], format="JPEG", options={"quality": 80}
+        source="file", processors=[ResizeToFit(400, 400, upscale=False)], format="JPEG", options={"quality": 80}
     )
 
     class Meta(object):
