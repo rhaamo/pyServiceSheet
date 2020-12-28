@@ -36,30 +36,30 @@
                         </div>
                         <div class="row border-bottom">
                             <div class="col-lg-3 font-weight-bold">Manufacturer</div>
-                            <div class="col">{{ item.manufacturer }}</div>
+                            <div class="col">{{ item.manufacturer|default:'Unknown' }}</div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-lg-3 font-weight-bold">Country of Origin</div>
-                            <div class="col">{{ item.country_of_origin }}</div>
+                            <div class="col">{{ item.country_of_origin|default:'Unknown' }}</div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-lg-3 font-weight-bold">Size</div>
-                            <div class="col">{{ item.size }}</div>
+                            <div class="col">{{ item.size|default:'Unspecified' }}</div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-lg-3 font-weight-bold">Serial Number</div>
-                            <div class="col">{{ item.serial_number }}</div>
+                            <div class="col">{{ item.serial_number|default:'Unspecified' }}</div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-lg-3 font-weight-bold">Short description</div>
-                            <div class="col">{{ item.short_description }}</div>
+                            <div class="col">{{ item.short_description|default:'Unspecified' }}</div>
                         </div>
 
                         <div class="row">
                             <div class="col-lg-6 font-weight-bold">Description</div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">{{ item.description_rendered | safe }}</div>
+                            <div class="col-lg-6">{{ item.description_rendered|default:'No description available.' | safe }}</div>
                         </div>
         
                     </div>
@@ -69,6 +69,7 @@
                     <div class="col-lg-6">
                         <div class="row">
                             <div class="col-lg-12">
+                                {% if item.item_pictures.all %}
                                 <div class="slider slider-for">
                                     {% for pic in item.item_pictures.all %}
                                     <div class="text-center">
@@ -82,6 +83,9 @@
                                     <div ><img class="px-4" src="{{ pic.file_small.url }}" width="200px">&nbsp;&nbsp;&nbsp;&nbsp;</div>
                                     {% endfor %}
                                 </div>
+                                {% else %}
+                                No pictures available.
+                                {% endif %}
                             </div>
                         </div>
 
@@ -151,6 +155,7 @@
 {% endblock %}
 
 {% block scripts %}
+{% if item.item_pictures.all %}
 <script>
 $('.slider-for').slick({
   slidesToShow: 1,
@@ -168,4 +173,5 @@ $('.slider-nav').slick({
   focusOnSelect: true
 });
 </script>
+{% endif %}
 {% endblock %}
