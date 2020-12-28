@@ -108,7 +108,7 @@ class ItemAdmin(CommonAdmin):
     )
 
     formfield_overrides = {
-        models.TextField: {"widget": Textarea(attrs={"rows": 5, "cols": 80})},
+        models.TextField: {"widget": Textarea(attrs={"rows": 10, "cols": 100})},
         models.CharField: {"widget": TextInput(attrs={"size": 40})},
     }
 

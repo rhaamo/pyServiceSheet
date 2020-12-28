@@ -4,6 +4,8 @@ import uuid
 from controllers.categories.models import Category
 from controllers.manufacturers.models import Manufacturer
 from .validators import validate_picture, validate_other
+from markdownfield.models import MarkdownField, RenderedMarkdownField
+from markdownfield.validators import VALIDATOR_CLASSY
 
 
 class Item(models.Model):
@@ -14,11 +16,16 @@ class Item(models.Model):
     model = models.CharField(max_length=255)
     country_of_origin = models.CharField(verbose_name="Country of Origin", max_length=255, blank=True, null=True)
     manufacturer = models.ForeignKey(Manufacturer, blank=True, null=True, on_delete=models.PROTECT)
-    description = models.TextField(unique=False, blank=True, help_text="Markdown is supported.")
+    
+    description = MarkdownField(blank=True, rendered_field='description_rendered', help_text="Markdown is supported.", validator=VALIDATOR_CLASSY)
+    description_rendered = RenderedMarkdownField()
+
     state = models.CharField(max_length=255)
 
     serial_number = models.CharField(max_length=255, blank=True, null=True)
-    plate_infos = models.TextField(blank=True, null=True, help_text="Markdown is supported.")
+    
+    plate_infos = MarkdownField(blank=True, null=True, rendered_field='plate_infos_rendered', help_text="Markdown is supported.", validator=VALIDATOR_CLASSY)
+    plate_infos_rendered = RenderedMarkdownField()
 
     category = models.ForeignKey(Category, verbose_name="Category", blank=True, null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -86,7 +93,10 @@ class ItemWork(models.Model):
     item = models.ForeignKey(Item, related_name="item_works", blank=False, null=False, on_delete=models.CASCADE)
 
     summary = models.CharField(max_length=255, blank=False, null=False)
-    content = models.TextField(blank=False, null=False, help_text="Markdown is supported.")
+
+    content = MarkdownField(blank=False, null=False, help_text="Markdown is supported.", rendered_field='content_rendered', validator=VALIDATOR_CLASSY)
+    content_rendered = RenderedMarkdownField()
+
     private = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
