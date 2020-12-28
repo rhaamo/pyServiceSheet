@@ -71,7 +71,7 @@ class ItemWeight(models.Model):
 
 
 class ItemPower(models.Model):
-    item = models.ForeignKey(Item, related_name="item_modes", blank=False, null=False, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, related_name="item_powers", blank=False, null=False, on_delete=models.CASCADE)
 
     mode = models.CharField(max_length=255, blank=False, null=False)
 

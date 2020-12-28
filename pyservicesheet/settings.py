@@ -87,6 +87,7 @@ INTERNAL_IPS = ALLOWED_HOSTS
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
+    "baton",  # has to be there
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -100,7 +101,7 @@ THIRD_PARTY_APPS = ["mptt", "imagekit", "django_admin_listfilter_dropdown", "dja
 LOCAL_APPS = ["controllers.categories", "controllers.manufacturers", "controllers.items"]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS + ["baton.autodiscover"]  # has to be at the end too
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -218,7 +219,7 @@ TEMPLATES = [
 STATIC_ROOT = env("STATIC_ROOT", default=str(ROOT_DIR("static")))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = env("STATIC_URL", default="/static/")
+STATIC_URL = "/static/"
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 # STATICFILES_DIRS = (str(APPS_DIR.path("static")),)
@@ -235,7 +236,7 @@ STATICFILES_FINDERS = (
 MEDIA_ROOT = env("MEDIA_ROOT", default=str(APPS_DIR("media")))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
-MEDIA_URL = env("MEDIA_URL", default="/media/")
+MEDIA_URL = "/media/"
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 ATTACHMENTS_UNATTACHED_PRUNE_DELAY = env.int("ATTACHMENTS_UNATTACHED_PRUNE_DELAY", default=3600 * 24)
@@ -276,3 +277,22 @@ ITEM_ATTACHMENT_ALLOWED_OTHER_TYPES = [
 # 50M (50*1024*1024)
 FILE_UPLOAD_MAX_MEMORY_SIZE = env("FILE_UPLOAD_MAX_MEMORY_SIZE", default=50 * 1024 * 1024)
 DATA_UPLOAD_MAX_MEMORY_SIZE = FILE_UPLOAD_MAX_MEMORY_SIZE
+
+# Baton admin config
+BATON = {
+    "SITE_HEADER": "pyServiceSheet",
+    "SITE_TITLE": "pyServiceSheet",
+    "INDEX_TITLE": "Site administration",
+    "SUPPORT_HREF": "https://github.com/rhaamo/pyServiceSheet",
+    "COPYRIGHT": "squeak squeak",  # noqa
+    "POWERED_BY": "an otter",
+    "CONFIRM_UNSAVED_CHANGES": True,
+    "SHOW_MULTIPART_UPLOADING": True,
+    "ENABLE_IMAGES_PREVIEW": True,
+    "CHANGELIST_FILTERS_IN_MODAL": False,
+    "CHANGELIST_FILTERS_ALWAYS_OPEN": True,
+    "MENU_ALWAYS_COLLAPSED": False,
+    "MENU_TITLE": "Menu",
+    "GRAVATAR_DEFAULT_IMG": "retro",
+    "ANALYTICS": None,
+}

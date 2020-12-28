@@ -1,9 +1,11 @@
 from django.contrib import admin
 from controllers.admin import CommonAdmin
 from .models import Item, ItemLinks, ItemPicture, ItemPower, ItemRelated, ItemWeight, ItemWork, ItemFile
-from django_admin_listfilter_dropdown.filters import DropdownFilter
+from baton.admin import DropdownFilter
 from mptt.admin import TreeRelatedFieldListFilter
 from imagekit.admin import AdminThumbnail
+from django.forms import Textarea
+from django.db import models
 
 
 class WeightsInline(admin.TabularInline):
@@ -48,14 +50,6 @@ class ItemPicturesInline(admin.TabularInline):
     verbose_name = "Picture"
     verbose_name_plural = "Pictures"
 
-    list_display = (
-        "image_display",
-        "description",
-    )
-    image_display = AdminThumbnail(image_field="file")
-    image_display.short_description = "Image"
-    readonly_fields = ["image_display"]
-
 
 class ItemFilesInline(admin.TabularInline):
     model = ItemFile
@@ -91,6 +85,50 @@ class ItemAdmin(CommonAdmin):
     autocomplete_fields = (
         "category",
         "manufacturer",
+    )
+
+    formfield_overrides = {models.TextField: {"widget": Textarea(attrs={"rows": 5, "cols": 80})}}
+
+    fieldsets = (
+        (
+            "Main",
+            {
+                "fields": (
+                    (
+                        "model",
+                        "country_of_origin",
+                        "manufacturer",
+                    ),
+                    (
+                        "state",
+                        "serial_number",
+                        "size",
+                    ),
+                    "description",
+                    "plate_infos",
+                    "category",
+                    "acquired",
+                    "private",
+                ),
+                "classes": (
+                    "baton-tabs-init",
+                    "baton-tab-group-fs-p--fs-buy_price",
+                    "baton-tab-group-inline-item_weights",
+                    "baton-tab-group-inline-item_powers",
+                    "baton-tab-group-inline-item_works",
+                    "baton-tab-group-inline-related_items",
+                    "baton-tab-group-inline-item_links",
+                    "baton-tab-group-inline-item_pictures--inline-item_files",
+                ),
+            },
+        ),
+        (
+            "Private fields",
+            {
+                "fields": ("buy_price", "can_be_sold", "private_note"),
+                "classes": ("tab-fs-p",),
+            },
+        ),
     )
 
 
