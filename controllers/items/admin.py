@@ -4,7 +4,7 @@ from .models import Item, ItemLinks, ItemPicture, ItemPower, ItemRelated, ItemWe
 from baton.admin import DropdownFilter
 from mptt.admin import TreeRelatedFieldListFilter
 from imagekit.admin import AdminThumbnail
-from django.forms import Textarea
+from django.forms import Textarea, TextInput
 from django.db import models
 
 
@@ -13,6 +13,9 @@ class WeightsInline(admin.TabularInline):
     extra = 1
     verbose_name = "Weight"
     verbose_name_plural = "Weights"
+    formfield_overrides = {
+        models.CharField: {"widget": TextInput(attrs={"size": 50})},
+    }
 
 
 class PowersInline(admin.TabularInline):
@@ -20,6 +23,9 @@ class PowersInline(admin.TabularInline):
     extra = 1
     verbose_name = "Power mode"
     verbose_name_plural = "Power modes"
+    formfield_overrides = {
+        models.CharField: {"widget": TextInput(attrs={"size": 80})},
+    }
 
 
 class WorksInline(admin.StackedInline):
@@ -27,6 +33,10 @@ class WorksInline(admin.StackedInline):
     extra = 1
     verbose_name = "Work log"
     verbose_name_plural = "Work logs"
+    formfield_overrides = {
+        models.CharField: {"widget": TextInput(attrs={"size": 100})},
+        models.TextField: {"widget": Textarea(attrs={"rows": 15, "cols": 100})},
+    }
 
 
 class RelatedInline(admin.TabularInline):
@@ -42,6 +52,10 @@ class URLsInline(admin.TabularInline):
     extra = 0
     verbose_name = "Link"
     verbose_name_plural = "Links"
+    formfield_overrides = {
+        models.CharField: {"widget": TextInput(attrs={"size": 80})},
+        models.URLField: {"widget": TextInput(attrs={"size": 80})},
+    }
 
 
 class ItemPicturesInline(admin.TabularInline):
@@ -49,6 +63,9 @@ class ItemPicturesInline(admin.TabularInline):
     extra = 0
     verbose_name = "Picture"
     verbose_name_plural = "Pictures"
+    formfield_overrides = {
+        models.CharField: {"widget": TextInput(attrs={"size": 80})},
+    }
 
 
 class ItemFilesInline(admin.TabularInline):
@@ -56,6 +73,9 @@ class ItemFilesInline(admin.TabularInline):
     extra = 0
     verbose_name = "File"
     verbose_name_plural = "Files"
+    formfield_overrides = {
+        models.CharField: {"widget": TextInput(attrs={"size": 80})},
+    }
 
 
 class ItemAdmin(CommonAdmin):
@@ -87,7 +107,10 @@ class ItemAdmin(CommonAdmin):
         "manufacturer",
     )
 
-    formfield_overrides = {models.TextField: {"widget": Textarea(attrs={"rows": 5, "cols": 80})}}
+    formfield_overrides = {
+        models.TextField: {"widget": Textarea(attrs={"rows": 5, "cols": 80})},
+        models.CharField: {"widget": TextInput(attrs={"size": 40})},
+    }
 
     fieldsets = (
         (
@@ -143,6 +166,10 @@ class WorkAdmin(CommonAdmin):
         ("item__model", DropdownFilter),
     ]
     autocomplete_fields = ("item",)
+    formfield_overrides = {
+        models.CharField: {"widget": TextInput(attrs={"size": 100})},
+        models.TextField: {"widget": Textarea(attrs={"rows": 15, "cols": 100})},
+    }
 
 
 class PicturesAdmin(CommonAdmin):
@@ -161,9 +188,12 @@ class PicturesAdmin(CommonAdmin):
     image_display.short_description = "Image"
     readonly_fields = ["image_display"]
 
+    formfield_overrides = {models.CharField: {"widget": TextInput(attrs={"size": 100})}}
+
 
 class FilesAdmin(CommonAdmin):
     list_display = (
+        "id",
         "file",
         "description",
     )
@@ -172,6 +202,7 @@ class FilesAdmin(CommonAdmin):
         ("item__model", DropdownFilter),
     ]
     autocomplete_fields = ("item",)
+    formfield_overrides = {models.CharField: {"widget": TextInput(attrs={"size": 100})}}
 
 
 admin.site.register(Item, ItemAdmin)

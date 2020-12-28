@@ -29,7 +29,7 @@ class Item(models.Model):
     # Private fields
     acquired = models.DateTimeField(blank=True, null=True)
     private = models.BooleanField(default=False)
-    buy_price = models.FloatField(blank=True, null=True, default=None)
+    buy_price = models.IntegerField(blank=True, null=True, default=None)
     can_be_sold = models.BooleanField(default=False)
     private_note = models.TextField(unique=False, blank=True)
 
