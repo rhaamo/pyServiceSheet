@@ -253,12 +253,15 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Various other things
-ATTACHMENTS_ALLOWED_TYPES = [
-    "application/pdf",
-    "application/xml",
+ITEM_ATTACHMENT_ALLOWED_PICTURES_TYPES = [
     "image/gif",
     "image/jpeg",
     "image/png",
+]
+
+ITEM_ATTACHMENT_ALLOWED_OTHER_TYPES = [
+    "application/pdf",
+    "application/xml",
     "image/svg+xml",
     "text/html",
     "text/plain",
@@ -267,6 +270,7 @@ ATTACHMENTS_ALLOWED_TYPES = [
     "application/vnd.ms-excel",
     "application/vnd.oasis.opendocument.text",
     "application/vnd.oasis.opendocument.spreadsheet",
+    "application/zip",  # excel lol
 ]
 
 # 50M (50*1024*1024)

@@ -1,8 +1,9 @@
 from django.contrib import admin
 from controllers.admin import CommonAdmin
-from .models import Item, ItemPower, ItemRelated, ItemWeight, ItemWork
+from .models import Item, ItemLinks, ItemPicture, ItemPower, ItemRelated, ItemWeight, ItemWork, ItemFile
 from django_admin_listfilter_dropdown.filters import DropdownFilter
 from mptt.admin import TreeRelatedFieldListFilter
+from imagekit.admin import AdminThumbnail
 
 
 class WeightsInline(admin.TabularInline):
@@ -34,6 +35,35 @@ class RelatedInline(admin.TabularInline):
     verbose_name_plural = "Related items"
 
 
+class URLsInline(admin.TabularInline):
+    model = ItemLinks
+    extra = 0
+    verbose_name = "Link"
+    verbose_name_plural = "Links"
+
+
+class ItemPicturesInline(admin.TabularInline):
+    model = ItemPicture
+    extra = 0
+    verbose_name = "Picture"
+    verbose_name_plural = "Pictures"
+
+    list_display = (
+        "image_display",
+        "description",
+    )
+    image_display = AdminThumbnail(image_field="file")
+    image_display.short_description = "Image"
+    readonly_fields = ["image_display"]
+
+
+class ItemFilesInline(admin.TabularInline):
+    model = ItemFile
+    extra = 0
+    verbose_name = "File"
+    verbose_name_plural = "Files"
+
+
 class ItemAdmin(CommonAdmin):
     list_display = (
         "model",
@@ -49,7 +79,10 @@ class ItemAdmin(CommonAdmin):
         PowersInline,
         WorksInline,
         RelatedInline,
-    ]  # gallery attachments, files attachments, related links, related FK items?
+        URLsInline,
+        ItemPicturesInline,
+        ItemFilesInline,
+    ]
     list_filter = [
         ("manufacturer__name", DropdownFilter),
         ("country_of_origin", DropdownFilter),
@@ -74,5 +107,36 @@ class WorkAdmin(CommonAdmin):
     autocomplete_fields = ("item",)
 
 
+class PicturesAdmin(CommonAdmin):
+    list_display = (
+        "id",
+        "image_display",
+        "description",
+    )
+    search_fields = ("description",)
+    list_filter = [
+        ("item__model", DropdownFilter),
+    ]
+    autocomplete_fields = ("item",)
+
+    image_display = AdminThumbnail(image_field="file")
+    image_display.short_description = "Image"
+    readonly_fields = ["image_display"]
+
+
+class FilesAdmin(CommonAdmin):
+    list_display = (
+        "file",
+        "description",
+    )
+    search_fields = ("description",)
+    list_filter = [
+        ("item__model", DropdownFilter),
+    ]
+    autocomplete_fields = ("item",)
+
+
 admin.site.register(Item, ItemAdmin)
 admin.site.register(ItemWork, WorkAdmin)
+admin.site.register(ItemPicture, PicturesAdmin)
+admin.site.register(ItemFile, FilesAdmin)

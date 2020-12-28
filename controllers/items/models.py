@@ -3,6 +3,7 @@ import uuid
 
 from controllers.categories.models import Category
 from controllers.manufacturers.models import Manufacturer
+from .validators import validate_picture, validate_other
 
 
 class Item(models.Model):
@@ -24,11 +25,6 @@ class Item(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     size = models.CharField(max_length=255, blank=True, null=True)
-
-    # gallery attachments
-    # files attachments
-    # related links
-    # related parts FK Item
 
     # Private fields
     acquired = models.DateTimeField(blank=True, null=True)
@@ -101,6 +97,8 @@ class ItemWork(models.Model):
 
     class Meta(object):
         ordering = ("created_at",)  # latest last
+        verbose_name = "Work log"
+        verbose_name_plural = "Work logs"
 
 
 class ItemRelated(models.Model):
@@ -111,3 +109,40 @@ class ItemRelated(models.Model):
 
     def __str__(self):
         return self.related.__str__()
+
+
+class ItemLinks(models.Model):
+    item = models.ForeignKey(Item, related_name="item_links", blank=False, null=False, on_delete=models.CASCADE)
+    url = models.URLField(blank=False, null=False)
+    description = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.url
+
+
+class ItemPicture(models.Model):
+    item = models.ForeignKey(Item, related_name="item_pictures", blank=False, null=False, on_delete=models.CASCADE)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    file = models.FileField(upload_to="pictures/", validators=[validate_picture], blank=False, null=False)
+
+    class Meta(object):
+        ordering = ("id",)
+        verbose_name = "Picture"
+        verbose_name_plural = "Pictures"
+
+    def __str__(self):
+        return self.description or "No description"
+
+
+class ItemFile(models.Model):
+    item = models.ForeignKey(Item, related_name="item_files", blank=False, null=False, on_delete=models.CASCADE)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    file = models.FileField(upload_to="pictures/", validators=[validate_other], blank=False, null=False)
+
+    class Meta(object):
+        ordering = ("id",)
+        verbose_name = "File"
+        verbose_name_plural = "Files"
+
+    def __str__(self):
+        return self.description or "No description"
