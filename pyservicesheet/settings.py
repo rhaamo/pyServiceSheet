@@ -96,7 +96,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["mptt", "imagekit", "django_admin_listfilter_dropdown", "django_extensions", "bootstrap4"]
+THIRD_PARTY_APPS = ["mptt", "imagekit", "django_admin_listfilter_dropdown", "django_extensions", "bootstrap4", "dynamic_preferences"]
 
 LOCAL_APPS = ["controllers.categories", "controllers.manufacturers", "controllers.items"]
 
@@ -193,6 +193,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 # Your stuff: custom template context processors go here
                 "controllers.contexts.add_common_context",
+                "dynamic_preferences.processors.global_preferences",
             ],
         },
     }

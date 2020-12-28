@@ -57,3 +57,4 @@ uritemplate==3.0.1
 urllib3==1.26.2
 django-bootstrap4==2.3.1
 django-markdownfield==0.8.0
+django-dynamic-preferences==1.10.1
