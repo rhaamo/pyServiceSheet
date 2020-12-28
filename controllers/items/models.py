@@ -12,8 +12,11 @@ class Item(models.Model):
     model = models.CharField(max_length=255)
     country_of_origin = models.CharField(verbose_name="Country of Origin", max_length=255, blank=True, null=True)
     manufacturer = models.ForeignKey(Manufacturer, blank=True, null=True, on_delete=models.PROTECT)
-    description = models.TextField(unique=False, blank=True)
+    description = models.TextField(unique=False, blank=True, help_text="Markdown is supported.")
     state = models.CharField(max_length=255)
+
+    serial_number = models.CharField(max_length=255, blank=True, null=True)
+    plate_infos = models.TextField(blank=True, null=True, help_text="Markdown is supported.")
 
     category = models.ForeignKey(Category, verbose_name="Category", blank=True, null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -42,3 +45,17 @@ class Item(models.Model):
 
     def __str__(self):
         return self.model
+
+
+class ItemWeight(models.Model):
+    item = models.ForeignKey(Item, related_name="item_weights", blank=False, null=False, on_delete=models.CASCADE)
+
+    weight = models.FloatField()
+    unit = models.CharField(max_length=15)
+    notes = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.weight}{self.unit}: {self.notes}"
+
+    class Meta(object):
+        ordering = ("weight",)
