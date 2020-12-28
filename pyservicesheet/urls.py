@@ -17,10 +17,18 @@ from baton.autodiscover import admin
 from django.urls import path, include
 from django.conf import settings
 from controllers.utils import static
+from controllers.items import views as views_items
+from django.conf.urls import url
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("baton/", include("baton.urls")),
+]
+
+urlpatterns += [
+    path("", views_items.home, name="category"),
+    url(r"^category/(?P<category_id>[0-9a-zA-Z]+)$", views_items.home, name="category"),
+    url(r"^item/(?P<item_id>[0-9a-zA-Z]+)$", views_items.item, name="item"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -96,7 +96,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["mptt", "imagekit", "django_admin_listfilter_dropdown", "django_extensions"]
+THIRD_PARTY_APPS = ["mptt", "imagekit", "django_admin_listfilter_dropdown", "django_extensions", "bootstrap4"]
 
 LOCAL_APPS = ["controllers.categories", "controllers.manufacturers", "controllers.items"]
 
@@ -114,22 +114,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "pyservicesheet.urls"
-
-TEMPLATES = [
-    {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
-            ],
-        },
-    },
-]
 
 WSGI_APPLICATION = "pyservicesheet.wsgi.application"
 
@@ -208,6 +192,7 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 # Your stuff: custom template context processors go here
+                "controllers.contexts.add_common_context",
             ],
         },
     }
@@ -296,3 +281,10 @@ BATON = {
     "GRAVATAR_DEFAULT_IMG": "retro",
     "ANALYTICS": None,
 }
+
+if DEBUG:
+    # Speed up a bit ImageKit
+    # if DEBUG=True, all caching is disabled...
+    IMAGEKIT_CACHE_BACKEND = "default"
+    IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = "imagekit.cachefiles.strategies.Optimistic"
+    IMAGEKIT_DEFAULT_CACHEFILE_BACKEND = "imagekit.cachefiles.backends.Simple"

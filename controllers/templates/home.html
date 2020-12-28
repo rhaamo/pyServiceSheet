@@ -1,0 +1,77 @@
+{% extends 'base.html' %}{% load bootstrap4 %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            {% if category %}
+                {% for c in category_path %}
+                    {% if forloop.last %}
+                        <li class="breadcrumb-item active">{{ c }}</li>
+                    {% else %}
+                        <li class="breadcrumb-item">{{ c }}</li>
+                    {% endif %}
+                {% endfor %}
+            {% elif category == 0 %}
+                <li class="breadcrumb-item">Items</li>
+                <li class="breadcrumb-item active">Uncategorized</li>
+            {% else %}
+                <li class="breadcrumb-item">Items</li>
+                <li class="breadcrumb-item active">All</li>
+            {% endif %}
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-sm table-striped">
+            <thead>
+            <tr>
+                <th width="25"><i class="fa fa-picture-o" aria-hidden="true"></i></th>
+                <th>
+                    {% if category %}
+                        <a href="{% url "category" category_id=category.id %}?sort={{ sort_arg }}&page={{ page }}{% if search_query %}&q={{ search_query }}{% endif %}">Model</a>
+                    {% else %}
+                        <a href="{% url "category" %}?sort={{ sort_arg }}&page={{ page }}{% if search_query %}&q={{ search_query }}{% endif %}">Model</a>
+                    {% endif %}
+                    {% if sort_by == 'model' %}
+                        <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
+                    {% endif %}
+                </th>
+                <th>Manufacturer</th>
+                <th>Country of Origin</th>
+                <th>Summary</th>
+                <th>State</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for item in paginator %}
+                <tr>
+                    <td>
+                        <a href="{% url 'item' item_id=item.id %}"><img src="{{ item.item_pictures.first.file_mini.url }}"/></a>
+                    </td>
+                    <td>
+                        <a href="{% url 'item' item_id=item.id %}">
+                        {{ item.model }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ item.manufacturer }}
+                    </td>
+                    <td>{{ item.country_of_origin }}</td>
+                    <td>{{ item.short_description }}</td>
+                    <td>{{ item.state }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% bootstrap_pagination paginator extra="sort="|add:sort_by %}
+    </div>
+</div>
+{% endblock %}

@@ -7,30 +7,30 @@ import markdownfield.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('items', '0018_auto_20201228_0951'),
+        ("items", "0018_auto_20201228_0951"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='item',
-            name='description_rendered',
-            field=markdownfield.models.RenderedMarkdownField(default=''),
+            model_name="item",
+            name="description_rendered",
+            field=markdownfield.models.RenderedMarkdownField(default=""),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='item',
-            name='plate_infos_rendered',
-            field=markdownfield.models.RenderedMarkdownField(default=''),
+            model_name="item",
+            name="plate_infos_rendered",
+            field=markdownfield.models.RenderedMarkdownField(default=""),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='item',
-            name='description',
-            field=markdownfield.models.MarkdownField(blank=True, rendered_field='description_rendered'),
+            model_name="item",
+            name="description",
+            field=markdownfield.models.MarkdownField(blank=True, rendered_field="description_rendered"),
         ),
         migrations.AlterField(
-            model_name='item',
-            name='plate_infos',
-            field=markdownfield.models.MarkdownField(blank=True, null=True, rendered_field='plate_infos_rendered'),
+            model_name="item",
+            name="plate_infos",
+            field=markdownfield.models.MarkdownField(blank=True, null=True, rendered_field="plate_infos_rendered"),
         ),
     ]

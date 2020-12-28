@@ -6,6 +6,8 @@ from controllers.manufacturers.models import Manufacturer
 from .validators import validate_picture, validate_other
 from markdownfield.models import MarkdownField, RenderedMarkdownField
 from markdownfield.validators import VALIDATOR_CLASSY
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit
 
 
 class Item(models.Model):
@@ -16,15 +18,28 @@ class Item(models.Model):
     model = models.CharField(max_length=255)
     country_of_origin = models.CharField(verbose_name="Country of Origin", max_length=255, blank=True, null=True)
     manufacturer = models.ForeignKey(Manufacturer, blank=True, null=True, on_delete=models.PROTECT)
-    
-    description = MarkdownField(blank=True, rendered_field='description_rendered', help_text="Markdown is supported.", validator=VALIDATOR_CLASSY)
+
+    short_description = models.CharField(max_length=255, blank=True, null=True)
+
+    description = MarkdownField(
+        blank=True,
+        rendered_field="description_rendered",
+        help_text="Markdown is supported.",
+        validator=VALIDATOR_CLASSY,
+    )
     description_rendered = RenderedMarkdownField()
 
     state = models.CharField(max_length=255)
 
     serial_number = models.CharField(max_length=255, blank=True, null=True)
-    
-    plate_infos = MarkdownField(blank=True, null=True, rendered_field='plate_infos_rendered', help_text="Markdown is supported.", validator=VALIDATOR_CLASSY)
+
+    plate_infos = MarkdownField(
+        blank=True,
+        null=True,
+        rendered_field="plate_infos_rendered",
+        help_text="Markdown is supported.",
+        validator=VALIDATOR_CLASSY,
+    )
     plate_infos_rendered = RenderedMarkdownField()
 
     category = models.ForeignKey(Category, verbose_name="Category", blank=True, null=True, on_delete=models.SET_NULL)
@@ -94,7 +109,13 @@ class ItemWork(models.Model):
 
     summary = models.CharField(max_length=255, blank=False, null=False)
 
-    content = MarkdownField(blank=False, null=False, help_text="Markdown is supported.", rendered_field='content_rendered', validator=VALIDATOR_CLASSY)
+    content = MarkdownField(
+        blank=False,
+        null=False,
+        help_text="Markdown is supported.",
+        rendered_field="content_rendered",
+        validator=VALIDATOR_CLASSY,
+    )
     content_rendered = RenderedMarkdownField()
 
     private = models.BooleanField(default=False)
@@ -133,7 +154,18 @@ class ItemLinks(models.Model):
 class ItemPicture(models.Model):
     item = models.ForeignKey(Item, related_name="item_pictures", blank=False, null=False, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=True, null=True)
+
     file = models.FileField(upload_to="pictures/", validators=[validate_picture], blank=False, null=False)
+
+    file_mini = ImageSpecField(
+        source="file", processors=[ResizeToFit(50, 50, upscale=False)], format="JPEG", options={"quality": 80}
+    )
+    file_small = ImageSpecField(
+        source="file", processors=[ResizeToFit(200, 150, upscale=False)], format="JPEG", options={"quality": 80}
+    )
+    file_medium = ImageSpecField(
+        source="file", processors=[ResizeToFit(400, 40, upscale=False)], format="JPEG", options={"quality": 80}
+    )
 
     class Meta(object):
         ordering = ("id",)

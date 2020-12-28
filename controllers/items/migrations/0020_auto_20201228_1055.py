@@ -7,29 +7,35 @@ import markdownfield.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('items', '0019_auto_20201228_1054'),
+        ("items", "0019_auto_20201228_1054"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='itemwork',
-            name='content_rendered',
-            field=markdownfield.models.RenderedMarkdownField(default=''),
+            model_name="itemwork",
+            name="content_rendered",
+            field=markdownfield.models.RenderedMarkdownField(default=""),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='item',
-            name='description',
-            field=markdownfield.models.MarkdownField(blank=True, help_text='Markdown is supported.', rendered_field='description_rendered'),
+            model_name="item",
+            name="description",
+            field=markdownfield.models.MarkdownField(
+                blank=True, help_text="Markdown is supported.", rendered_field="description_rendered"
+            ),
         ),
         migrations.AlterField(
-            model_name='item',
-            name='plate_infos',
-            field=markdownfield.models.MarkdownField(blank=True, help_text='Markdown is supported.', null=True, rendered_field='plate_infos_rendered'),
+            model_name="item",
+            name="plate_infos",
+            field=markdownfield.models.MarkdownField(
+                blank=True, help_text="Markdown is supported.", null=True, rendered_field="plate_infos_rendered"
+            ),
         ),
         migrations.AlterField(
-            model_name='itemwork',
-            name='content',
-            field=markdownfield.models.MarkdownField(help_text='Markdown is supported.', rendered_field='content_rendered'),
+            model_name="itemwork",
+            name="content",
+            field=markdownfield.models.MarkdownField(
+                help_text="Markdown is supported.", rendered_field="content_rendered"
+            ),
         ),
     ]

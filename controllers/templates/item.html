@@ -1,0 +1,117 @@
+{% extends 'base.html' %}{% load bootstrap4 %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            {% if item.category %}
+                <li class="breadcrumb-item">{{ item.category }}</li>
+                <li class="breadcrumb-item active">{{ item }}</li>
+            {% else %}
+                <li class="breadcrumb-item active">{{ item }}</li>
+            {% endif %}
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true">Main</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="work-log-tab" data-toggle="tab" href="#work-log" role="tab" aria-controls="work-log" aria-selected="false">Work log</a>
+            </li>
+        </ul>
+        <div class="tab-content mt-4" id="myTabContent">
+            <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
+                <div class="row border-bottom">
+                    <div class="col-lg-3 font-weight-bold">Model</div>
+                    <div class="col">{{ item.model }}</div>
+                </div>
+                <div class="row border-bottom">
+                    <div class="col-lg-3 font-weight-bold">Manufacturer</div>
+                    <div class="col">{{ item.manufacturer }}</div>
+                </div>
+                <div class="row border-bottom">
+                    <div class="col-lg-3 font-weight-bold">Country of Origin</div>
+                    <div class="col">{{ item.country_of_origin }}</div>
+                </div>
+                <div class="row border-bottom">
+                    <div class="col-lg-3 font-weight-bold">Size</div>
+                    <div class="col">{{ item.size }}</div>
+                </div>
+                <div class="row border-bottom">
+                    <div class="col-lg-3 font-weight-bold">Serial Number</div>
+                    <div class="col">{{ item.serial_number }}</div>
+                </div>
+                <div class="row border-bottom">
+                    <div class="col-lg-3 font-weight-bold">Short description</div>
+                    <div class="col">{{ item.short_description }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 font-weight-bold">Description</div>
+                    <div class="col-lg-6 font-weight-bold">Plate infos</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">{{ item.description_rendered | safe }}</div>
+                    <div class="col-lg-6">{{ item.plate_infos_rendered | safe }}</div>
+                </div>
+
+                <div class="mt-5">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h3><i class="fa fa-balance-scale" aria-hidden="true"></i> Weights</h3>
+                            {% for weight in item.item_weights.all %}
+                                <div>{{ weight.weight }}{{ weight.unit }} - {{ weight.notes }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-6">
+                            <h3><i class="fa fa-battery-half" aria-hidden="true"></i></i> Power modes</h3>
+                            {% for power_mode in item.item_powers.all %}
+                                <div>{{ power_mode.mode }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h3><i class="fa fa-question-circle-o" aria-hidden="true"></i> Related items</h3>
+                            {% for item in item.related_items.all %}
+                                <div><a href="{% url 'item' item_id=item.id %}">{{ item }}</a></div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-6">
+                            <h3><i class="fa fa-link" aria-hidden="true"></i> Links</h3>
+                            {% for link in item.item_links.all %}
+                                <div><a href="{{ link.url }}" target="_blank" title="{{ link.url }}"><i class="fa fa-external-link" aria-hidden="true"></i></a> {{ link.description }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="work-log" role="tabpanel" aria-labelledby="work-log-tab">
+                {% for log in item.item_works.all %}
+                    {% if not log.private %}
+                        <div class="work-log-entry border-bottom mb-5">
+                            <h4><i class="fa fa-file-text-o" aria-hidden="true"></i> {{ log.summary }}</h4>
+                            {% if log.created_at == log.updated_at %}
+                                <p>Entered on {{ log.created_at }}</p>
+                            {% else %}
+                                <p>Entered on {{ log.created_at }}, updated at {{ log.updated_at }}</p>
+                            {% endif %}
+                            <p>{{ log.content_rendered | safe }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
