@@ -17,7 +17,7 @@ def home(request, category_id=None, template_name="home.html"):
         ctx["sort_art"] = "model"
         ctx["sort_by"] = "-model"
 
-    base_queryset = Item.objects.prefetch_related("manufacturer", "category")
+    base_queryset = Item.objects.filter(private=False).prefetch_related("manufacturer", "category")
 
     if category_id and category_id != "0":
         cat = get_object_or_404(Category, id=category_id)
@@ -40,7 +40,7 @@ def home(request, category_id=None, template_name="home.html"):
 
 
 def item(request, item_id, template_name="item.html"):
-    item = get_object_or_404(Item, id=item_id)
+    item = get_object_or_404(Item, id=item_id, private=False)
     ctx = {}
     ctx["item"] = item
     return render(request, template_name, ctx)
