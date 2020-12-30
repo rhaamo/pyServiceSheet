@@ -29,7 +29,7 @@ class Item(models.Model):
     )
     description_rendered = RenderedMarkdownField()
 
-    state = models.CharField(max_length=255)
+    state = models.CharField(max_length=255, default="Unknown")
 
     serial_number = models.CharField(max_length=255, blank=True, null=True)
 
