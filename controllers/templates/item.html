@@ -107,7 +107,11 @@
                         <div class="col-lg-6">
                             <h3><i class="fa fa-balance-scale" aria-hidden="true"></i> Weights</h3>
                             {% for weight in item.item_weights.all %}
-                                <div>{{ weight.weight }}{{ weight.unit }} - {{ weight.notes }}</div>
+                                {% if weight.notes %}
+                                    <div>{{ weight.weight }}{{ weight.unit }} - {{ weight.notes }}</div>
+                                {% else %}
+                                    <div>{{ weight.weight }}{{ weight.unit }}</div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                         <div class="col-lg-6">
