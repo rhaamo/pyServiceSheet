@@ -296,3 +296,5 @@ if DEBUG:
     IMAGEKIT_CACHE_BACKEND = "default"
     IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = "imagekit.cachefiles.strategies.Optimistic"
     IMAGEKIT_DEFAULT_CACHEFILE_BACKEND = "imagekit.cachefiles.backends.Simple"
+
+SITE_URL = env("SITE_URL", default="http://localhost")
