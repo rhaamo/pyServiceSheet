@@ -84,7 +84,7 @@ class ItemWeight(models.Model):
 
     weight = models.FloatField()
     unit = models.CharField(max_length=15)
-    notes = models.CharField(max_length=255)
+    notes = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"{self.weight}{self.unit}: {self.notes}"
