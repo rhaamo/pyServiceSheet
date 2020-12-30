@@ -30,7 +30,7 @@
         <table class="table table-sm table-striped">
             <thead>
             <tr>
-                <th width="25"><i class="fa fa-picture-o" aria-hidden="true"></i></th>
+                <th width="100"><i class="fa fa-picture-o" aria-hidden="true"></i></th>
                 <th>
                     {% if category %}
                         <a href="{% url "category" category_id=category.id %}?sort={{ sort_arg }}&page={{ page }}{% if search_query %}&q={{ search_query }}{% endif %}">Model</a>
@@ -54,7 +54,7 @@
             {% for item in paginator %}
                 <tr>
                     <td>
-                        <a href="{% url 'item' item_id=item.id %}"><img src="{{ item.item_pictures.first.file_mini.url }}"/></a>
+                        <a href="{% url 'item' item_id=item.id %}"><img src="{{ item.item_pictures.first.file_small.url }}"/></a>
                     </td>
                     <td>
                         <a href="{% url 'item' item_id=item.id %}">
