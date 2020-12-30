@@ -155,7 +155,7 @@ class ItemPicture(models.Model):
     item = models.ForeignKey(Item, related_name="item_pictures", blank=False, null=False, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=True, null=True)
 
-    file = models.FileField(upload_to="pictures/", validators=[validate_picture], blank=False, null=False)
+    file = models.ImageField(upload_to="pictures/", validators=[validate_picture], blank=False, null=False)
 
     file_mini = ImageSpecField(
         source="file", processors=[ResizeToFit(50, 50, upscale=False)], format="JPEG", options={"quality": 80}

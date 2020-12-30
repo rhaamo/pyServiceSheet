@@ -74,7 +74,10 @@
                                     {% for pic in item.item_pictures.all %}
                                     <div class="text-center">
                                         <img width="400px" class="mx-auto" src="{{ pic.file_medium.url }}">
-                                        <p>{{ pic.description |default:'No description.'}}</p>
+                                        <p>
+                                            <a href="{{ pic.file.url }}" target="_blank" title="Open original image"><i class="fa fa-expand" aria-hidden="true"></i></a>
+                                            {{ pic.description |default:'No description.'}}
+                                        </p>
                                     </div>
                                     {% endfor %}
                                 </div>
