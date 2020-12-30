@@ -103,10 +103,7 @@ class ItemAdmin(CommonAdmin):
         ("country_of_origin", DropdownFilter),
         ("category", TreeRelatedFieldListFilter),
     ]
-    autocomplete_fields = (
-        "category",
-        "manufacturer",
-    )
+    autocomplete_fields = ("manufacturer",)
 
     formfield_overrides = {
         models.TextField: {"widget": Textarea(attrs={"rows": 10, "cols": 100})},

@@ -8,6 +8,7 @@ from markdownfield.models import MarkdownField, RenderedMarkdownField
 from markdownfield.validators import VALIDATOR_CLASSY
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
+from mptt.models import TreeForeignKey
 
 
 class Item(models.Model):
@@ -42,7 +43,7 @@ class Item(models.Model):
     )
     plate_infos_rendered = RenderedMarkdownField()
 
-    category = models.ForeignKey(Category, verbose_name="Category", blank=True, null=True, on_delete=models.SET_NULL)
+    category = TreeForeignKey(Category, verbose_name="Category", blank=True, null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
