@@ -62,9 +62,9 @@
                         </a>
                     </td>
                     <td>
-                        {{ item.manufacturer }}
+                        {{ item.manufacturer|default:'Unknown' }}
                     </td>
-                    <td>{{ item.country_of_origin }}</td>
+                    <td>{{ item.country_of_origin|default:'Unknown' }}</td>
                     <td>{{ item.short_description }}</td>
                     <td>{{ item.state }}</td>
                 </tr>
