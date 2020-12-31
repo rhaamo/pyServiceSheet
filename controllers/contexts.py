@@ -11,5 +11,6 @@ def add_common_context(request):
             items_count=models.Count("item", filter=models.Q(item__private=False))
         ),
         "uncategorized": Item.objects.filter(category__isnull=True, private=False).count(),
+        "all_items": Item.objects.filter(private=False).count(),
     }
     return ctx
