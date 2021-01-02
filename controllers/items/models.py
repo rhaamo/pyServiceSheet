@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+import datetime
 
 from controllers.categories.models import Category
 from controllers.manufacturers.models import Manufacturer
@@ -121,7 +122,7 @@ class ItemWork(models.Model):
 
     private = models.BooleanField(default=False)
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=False, default=datetime.datetime.now)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

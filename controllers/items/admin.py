@@ -37,6 +37,8 @@ class WorksInline(admin.StackedInline):
         models.CharField: {"widget": TextInput(attrs={"size": 100})},
         models.TextField: {"widget": Textarea(attrs={"rows": 15, "cols": 100})},
     }
+    readonly_fields = ["updated_at"]
+    fields = ["summary", "created_at", "content"]
 
 
 class RelatedInline(admin.TabularInline):
