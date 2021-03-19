@@ -54,7 +54,7 @@ toml==0.10.2
 typed-ast==1.4.1
 typing-extensions==3.7.4.3
 uritemplate==3.0.1
-urllib3==1.26.2
+urllib3==1.26.3
 django-bootstrap4==2.3.1
 django-markdownfield==0.8.0
 django-dynamic-preferences==1.10.1
